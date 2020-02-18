@@ -13,6 +13,15 @@ import numpy as np
 
 # def getValidMoves(p, q, N):
 
+def getFlattenState(initial_state):
+	num = 0
+
+	for j in range(3):
+		for i in range(3):
+			num = 10*num + initial_state[i][j]
+
+	return num;
+
 def getBlankTilePosition (state):
 	n = 8
 	num = -1
@@ -37,15 +46,25 @@ def getBlankTilePosition (state):
 
 	return i, j
 
+def getValidMoves(r, c):
+	'''
+	Input: Position (row, col) of the blank tile 
+	Output: list containing valid moves
+	'''
 
-def getFlattenState(initial_state):
-	num = 0
+	valid_moves = []
 
-	for j in range(3):
-		for i in range(3):
-			num = 10*num + initial_state[i][j]
+	if(r > 0):
+		valid_moves.append('u')
+	if(r < 2):
+		valid_moves.append('d')
+	if(c > 0):
+		valid_moves.append('l')
+	if(c < 2):
+		valid_moves.append('r')
 
-	return num;
+	return valid_moves
+
 
 def main():
 	initial_state = [[1, 0, 3],
@@ -55,10 +74,17 @@ def main():
 				  [4, 5, 6],
 				  [7, 8, 0]]
 
+
 	flat_state = getFlattenState(initial_state)
-	print(getBlankTilePosition(flat_state))
 
 	print(flat_state)
+
+	r,c = getBlankTilePosition(flat_state)
+	print(r, c)
+
+	moves = getValidMoves(r, c)
+	print(moves)
+
 
 	# Save state index in an array
 
