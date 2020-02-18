@@ -12,7 +12,30 @@ import numpy as np
 
 
 # def getValidMoves(p, q, N):
+
+def getBlankTilePosition (state):
+	n = 8
+	num = -1
+
+	for i in range(9):
+		l = state%10
+		# print("l: ", l)
+		if (l == 0):
+			num = n
+			break
+		state = int(state/10)
+		# print("state: ", state)
+		n = n-1
+
+	# print(num)
+
+	if (num == -1):
+		print("Invalid COnfiguration! Blank tile not found")
 	
+	j = num / 3
+	i = num % 3
+
+	return i, j
 
 
 def getFlattenState(initial_state):
@@ -33,6 +56,7 @@ def main():
 				  [7, 8, 0]]
 
 	flat_state = getFlattenState(initial_state)
+	print(getBlankTilePosition(flat_state))
 
 	print(flat_state)
 
