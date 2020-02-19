@@ -9,48 +9,53 @@ University of Maryland, College Park
 """
 
 import numpy as np
+from collections import deque
 
 
 # def getValidMoves(p, q, N):
 
-def getFlattenState(initial_state):
+def flattenState(initial_state):
 	num = 0
 
-	for j in range(3):
-		for i in range(3):
-			num = 10*num + initial_state[i][j]
+	for i in range(9):
+		num = 10*num + initial_state[i]
 
 	return num;
 
+def unFlattenState(num):
+	state = [-1] * 9
+
+	for i in range(8, -1, -1):
+		state[i] = int(num % 10)
+		num = int(num / 10)
+
+	return state;
+
 def getBlankTilePosition (state):
-	n = 8
-	num = -1
+	l = len(state)
+	n = -1
 
-	for i in range(9):
-		l = state%10
-		# print("l: ", l)
-		if (l == 0):
-			num = n
-			break
-		state = int(state/10)
-		# print("state: ", state)
-		n = n-1
+	for i in range(l):
+		if (state[i] == 0):
+			n = i
+			break 
 
-	# print(num)
-
-	if (num == -1):
-		print("Invalid COnfiguration! Blank tile not found")
+	if(n == -1):
+		print("Where is the blank tile??")
 	
-	j = num / 3
-	i = num % 3
+	j = int(n / 3)
+	i = int(n % 3)
 
-	return i, j
+	return (i, j)
 
-def getValidMoves(r, c):
+def getValidMoves(pos):
 	'''
 	Input: Position (row, col) of the blank tile 
 	Output: list containing valid moves
 	'''
+
+	r = pos[0]
+	c = pos[1]
 
 	valid_moves = []
 
@@ -65,44 +70,65 @@ def getValidMoves(r, c):
 
 	return valid_moves
 
+def move(state, move, pos):
+	# using list for saing state might be easier
+	# will still need to convert to num for key in dict
+
+	new_state = state.copy()
+	n = 3*pos[1] + pos[0]
+	r = pos[0]
+	c = pos[1]
+
+	if(move == 'u'):
+		r = r - 1
+	elif(move == 'd'):
+		r = r + 1
+	elif(move == 'l'):
+		c = c - 1
+	elif(move == 'r'):
+		c = c + 1
+
+	m = 3*c + r
+
+	t = new_state[n]
+	new_state[n] = new_state[m]
+	new_state[m] = t
+
+	return new_state
+
 
 def main():
-	initial_state = [[1, 0, 3],
-					 [4, 2, 5],
-					 [7, 8, 6]]
-	goal_state = [[1, 2, 3], 
-				  [4, 5, 6],
-				  [7, 8, 0]]
+	initial_state = [1, 4, 7, 0, 2, 8, 3, 5, 6]
+	goal_state = [1, 4, 7, 2, 5, 8, 3, 6, 0]
 
+	nodes = []
+	nodes_info = []
+	node_path = []
 
-	flat_state = getFlattenState(initial_state)
+	goal = False
 
-	print(flat_state)
+	q = deque()
 
-	r,c = getBlankTilePosition(flat_state)
-	print(r, c)
+	q.append(initial_state)
+	nodes.append(initial_state)
+	nodes_info.append([0, 0])
+	visited = { flattenState(initial_state) : 0}
 
-	moves = getValidMoves(r, c)
-	print(moves)
+	print(nodes)
+	print(nodes_info)
+	print(visited)
 
+	while q:
+		state = q.popleft()
+		blank_pos = getBlankTilePosition(state)
+		moves = getValidMoves(blank_pos)
+		index = visited.get(flattenState(state));
 
-	# Save state index in an array
-
-	index_to_state = []
-	index_to_state.append(initial_state)
-
-	# Dict to keep a track of all the nodes visited
-	# Add a variable path to dict (not recursion required)
-
-
-	state_to_index = {flat_state : 0}
-
-	# print(type(state_to_index))
-
-
-	# Queue to keep a track of all the nodes to visit next
-
-
+		for m in moves:
+			new_state = move(state, m, blank_pos)
+			print(m)
+			print(new_state)
+			print(state)
 
 
 
