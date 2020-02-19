@@ -124,11 +124,52 @@ def main():
 		moves = getValidMoves(blank_pos)
 		index = visited.get(flattenState(state));
 
+		print("Exploring state num: ", index)
+
 		for m in moves:
 			new_state = move(state, m, blank_pos)
 			print(m)
 			print(new_state)
 			print(state)
+
+			if (visited.get(flattenState(new_state)) == None):
+				nodes.append(new_state)
+				print("Found new state: ", len(nodes)-1)
+				nodes_info.append([len(nodes)-1, index])
+				visited[flattenState(new_state)] = len(nodes)-1
+
+				if (new_state == goal_state):
+					print("Reached goal!!")
+					goal = True
+					break
+
+			q.append(new_state)
+
+		if goal:
+			break
+
+	print(nodes)
+	print(nodes_info)
+
+	x = nodes_info[len(nodes) -1][0]
+	y = nodes_info[len(nodes) -1][1]
+	res = []
+	res.append(nodes[x])
+	res.append(nodes[y])
+
+	while (y != 0):
+		y = nodes_info[y][1]
+		res.append(nodes[y])
+
+	while res:
+		temp = res.pop()
+		node_path.append(temp)
+
+
+
+	print(node_path)
+
+
 
 
 
