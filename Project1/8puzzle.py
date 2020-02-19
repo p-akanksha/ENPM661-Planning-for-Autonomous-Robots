@@ -96,6 +96,23 @@ def move(state, move, pos):
 
 	return new_state
 
+def solvabilityCheck(initial_state):
+	arr = [0]*9
+
+	for i in range(3):
+		for j in range(3):
+			arr[3*i + j] = initial_state[3*j + i]
+
+	inv = 0
+	for i in range(9):
+		for j in range(8, i, -1):
+			if (arr[j] < arr[i] and arr[j] != 0):
+				inv = inv + 1
+
+	if inv%2 == 0:
+		return True
+	else:
+		return False
 
 def main():
 	# initial_state = [1, 4, 7, 0, 2, 8, 3, 5, 6]
@@ -106,6 +123,12 @@ def main():
 	nodes = []
 	nodes_info = []
 	node_path = []
+
+	solvable = solvabilityCheck(initial_state)
+
+	if not solvable:
+		print("This arrangement is not solvable")
+		return
 
 	goal = False
 
