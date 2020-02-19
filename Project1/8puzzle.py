@@ -98,7 +98,9 @@ def move(state, move, pos):
 
 
 def main():
-	initial_state = [1, 4, 7, 0, 2, 8, 3, 5, 6]
+	# initial_state = [1, 4, 7, 0, 2, 8, 3, 5, 6]
+	initial_state = [2, 1, 7, 8, 6, 0, 3, 4, 5]
+	# initial_state = [5, 4, 0, 2, 1, 3, 8, 7, 6]
 	goal_state = [1, 4, 7, 2, 5, 8, 3, 6, 0]
 
 	nodes = []
@@ -128,9 +130,9 @@ def main():
 
 		for m in moves:
 			new_state = move(state, m, blank_pos)
-			print(m)
-			print(new_state)
-			print(state)
+			# print(m)
+			# print(new_state)
+			# print(state)
 
 			if (visited.get(flattenState(new_state)) == None):
 				nodes.append(new_state)
@@ -143,13 +145,24 @@ def main():
 					goal = True
 					break
 
-			q.append(new_state)
+				q.append(new_state)
 
 		if goal:
 			break
 
-	print(nodes)
-	print(nodes_info)
+	if not goal:
+		print("Goal not found")
+
+	# print(nodes)
+	# print(nodes_info)
+
+	nodes = np.asarray(nodes)
+	# print("Nodes: ")
+	# print(nodes)
+
+	nodes_info = np.asarray(nodes_info)
+	# print("Nodes_info: ")
+	# print(nodes_info)
 
 	x = nodes_info[len(nodes) -1][0]
 	y = nodes_info[len(nodes) -1][1]
@@ -166,8 +179,12 @@ def main():
 		node_path.append(temp)
 
 
-
+	node_path = np.asarray(node_path)
 	print(node_path)
+
+	np.savetxt('Nodes.txt', nodes, fmt='%i')
+	np.savetxt('NodesInfo.txt', nodes_info, fmt='%i')
+	np.savetxt('nodePath.txt', node_path, fmt='%i')
 
 
 
