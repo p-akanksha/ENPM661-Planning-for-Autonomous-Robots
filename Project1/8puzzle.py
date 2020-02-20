@@ -15,6 +15,11 @@ from collections import deque
 # def getValidMoves(p, q, N):
 
 def flattenState(initial_state):
+	'''
+	Returns a numeric form of state.
+	For state: [1,4,7,2,5,8,3,6,0]
+	returns 147258360
+	'''
 	num = 0
 
 	for i in range(9):
@@ -23,6 +28,9 @@ def flattenState(initial_state):
 	return num;
 
 def unFlattenState(num):
+	'''
+	Given the numeric form returns state in array form
+	'''
 	state = [-1] * 9
 
 	for i in range(8, -1, -1):
@@ -32,6 +40,9 @@ def unFlattenState(num):
 	return state;
 
 def getBlankTilePosition (state):
+	'''
+	Get the position of blank tile (row, column)
+	'''
 	l = len(state)
 	n = -1
 
@@ -50,8 +61,7 @@ def getBlankTilePosition (state):
 
 def getValidMoves(pos):
 	'''
-	Input: Position (row, col) of the blank tile 
-	Output: list containing valid moves
+	Get a list of valid moves for a given blank tile location. 
 	'''
 
 	r = pos[0]
@@ -71,8 +81,18 @@ def getValidMoves(pos):
 	return valid_moves
 
 def move(state, move, pos):
-	# using list for saing state might be easier
-	# will still need to convert to num for key in dict
+	'''
+	Move the tiles according to a given move and return the updated state
+
+	Input: 
+		state: current state of the board
+		move: move to be executed
+		pos: position of the blank tile
+
+	Output:
+		new_state: state after movement
+
+	'''
 
 	new_state = state.copy()
 	n = 3*pos[1] + pos[0]
@@ -97,6 +117,10 @@ def move(state, move, pos):
 	return new_state
 
 def solvabilityCheck(initial_state):
+	'''
+	Check is the current tile arrangement is solvable and return True if is solvable
+	'''
+
 	arr = [0]*9
 
 	for i in range(3):
@@ -115,6 +139,18 @@ def solvabilityCheck(initial_state):
 		return False
 
 def main():
+
+	'''
+	States are entered colunm wise. 
+	For: +-+-+-+  state would be [1,4,7,2,5,8,3,6,0]
+		 |1|2|3|
+		 +-+-+-+
+		 |4|5|6|
+		 +-+-+-+
+		 |7|8|0|
+		 +-+-+-+
+	'''
+
 	# initial_state = [1, 4, 7, 0, 2, 8, 3, 5, 6]
 	initial_state = [2, 1, 7, 8, 6, 0, 3, 4, 5]
 	# initial_state = [5, 4, 0, 2, 1, 3, 8, 7, 6]
@@ -153,9 +189,6 @@ def main():
 
 		for m in moves:
 			new_state = move(state, m, blank_pos)
-			# print(m)
-			# print(new_state)
-			# print(state)
 
 			if (visited.get(flattenState(new_state)) == None):
 				nodes.append(new_state)
@@ -176,16 +209,10 @@ def main():
 	if not goal:
 		print("Goal not found")
 
-	# print(nodes)
-	# print(nodes_info)
-
 	nodes = np.asarray(nodes)
-	# print("Nodes: ")
-	# print(nodes)
-
 	nodes_info = np.asarray(nodes_info)
-	# print("Nodes_info: ")
-	# print(nodes_info)
+
+	# Backtracking to get the path
 
 	x = nodes_info[len(nodes) -1][0]
 	y = nodes_info[len(nodes) -1][1]
@@ -205,6 +232,7 @@ def main():
 	node_path = np.asarray(node_path)
 	print(node_path)
 
+	# Save output in a text file
 	np.savetxt('Nodes.txt', nodes, fmt='%i')
 	np.savetxt('NodesInfo.txt', nodes_info, fmt='%i')
 	np.savetxt('nodePath.txt', node_path, fmt='%i')
