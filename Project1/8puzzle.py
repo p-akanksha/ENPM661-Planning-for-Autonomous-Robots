@@ -159,6 +159,9 @@ def main():
     Args = Parser.parse_args()
     initial_state = Args.initial_state
     gaol_state = Args.gaol_state
+    
+    initial_state = unFlattenState(initial_state)
+    goal_state = unFlattenState(goal_state)
 
 	# initial_state = [1, 4, 7, 0, 2, 8, 3, 5, 6]
 	# initial_state = [2, 1, 7, 8, 6, 0, 3, 4, 5]
