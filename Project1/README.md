@@ -2,7 +2,7 @@
 
 ## Input Format
 
-The accepted input is column-wise, i.e. [1, 4, 7, 2, 5, 8, 3, 6, 0] will correspond to the following state
+The accepted input is column-wise, i.e. 147258360 will correspond to the following state
 
 ```
 +-+-+-+
@@ -15,13 +15,13 @@ The accepted input is column-wise, i.e. [1, 4, 7, 2, 5, 8, 3, 6, 0] will corresp
 ```
 
 ## Run the code
-Run the following command to run the code with default input [1, 4, 7, 0, 2, 8, 3, 5, 6]
+Run the following command to run the code with default input 147028356
 
 ``` python3.5 8puzzle.py```
 
-To run the code with custom initial and goal state:
+To run the code with custom initial state
 
-``` python3.5 8puzzle.py --initial_state <initial_state> --goal_state <goal_state>```
+``` python3.5 8puzzle.py --initial_state <initial_state>```
 
 ## Output
 

@@ -152,21 +152,15 @@ def main():
 		 +-+-+-+
 	'''
     
-    Parser = argparse.ArgumentParser()
-    Parser.add_argument('--initial_state', type=int, default=147028356, help='Start state of the puzzel, Default:147028356')
-    Parser.add_argument('--gaol_state', type=int, default=147258360, help='Gaol state, Default:147258360')
-    
-    Args = Parser.parse_args()
-    initial_state = Args.initial_state
-    gaol_state = Args.gaol_state
-    
-    initial_state = unFlattenState(initial_state)
-    goal_state = unFlattenState(goal_state)
+	Parser = argparse.ArgumentParser()
+	Parser.add_argument('--initial_state', type=int, default=147028356, help='Start state of the puzzel, Default:147028356')
 
-	# initial_state = [1, 4, 7, 0, 2, 8, 3, 5, 6]
-	# initial_state = [2, 1, 7, 8, 6, 0, 3, 4, 5]
-	# initial_state = [5, 4, 0, 2, 1, 3, 8, 7, 6]
-	# goal_state = [1, 4, 7, 2, 5, 8, 3, 6, 0]
+	Args = Parser.parse_args()
+	initial_state = Args.initial_state
+
+	initial_state = unFlattenState(initial_state)
+
+	goal_state = [1, 4, 7, 2, 5, 8, 3, 6, 0]
 
 	nodes = []
 	nodes_info = []
@@ -184,12 +178,7 @@ def main():
 
 	q.append(initial_state)
 	nodes.append(initial_state)
-	# nodes_info.append([0, 0])
 	visited = { flattenState(initial_state) : 0}
-
-	print(nodes)
-	print(nodes_info)
-	print(visited)
 
 	while q:
 		state = q.popleft()
@@ -197,14 +186,11 @@ def main():
 		moves = getValidMoves(blank_pos)
 		index = visited.get(flattenState(state));
 
-		print("Exploring state num: ", index)
-
 		for m in moves:
 			new_state = move(state, m, blank_pos)
 
 			if (visited.get(flattenState(new_state)) == None):
 				nodes.append(new_state)
-				print("Found new state: ", len(nodes)-1)
 				nodes_info.append([len(nodes)-1, index])
 				visited[flattenState(new_state)] = len(nodes)-1
 
@@ -226,8 +212,8 @@ def main():
 
 	# Backtracking to get the path
 
-	x = nodes_info[len(nodes) -1][0]
-	y = nodes_info[len(nodes) -1][1]
+	x = nodes_info[len(nodes_info) -1][0]
+	y = nodes_info[len(nodes_info) -1][1]
 	res = []
 	res.append(nodes[x])
 	res.append(nodes[y])
@@ -242,7 +228,6 @@ def main():
 
 
 	node_path = np.asarray(node_path)
-	print(node_path)
 
 	# Save output in a text file
 	np.savetxt('Nodes.txt', nodes, fmt='%i')
