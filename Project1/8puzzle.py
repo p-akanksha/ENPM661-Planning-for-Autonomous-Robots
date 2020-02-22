@@ -9,6 +9,7 @@ University of Maryland, College Park
 """
 
 import numpy as np
+import argparse
 from collections import deque
 
 
@@ -150,11 +151,19 @@ def main():
 		 |7|8|0|
 		 +-+-+-+
 	'''
+    
+    Parser = argparse.ArgumentParser()
+    Parser.add_argument('--initial_state', type=int, default=147028356, help='Start state of the puzzel, Default:147028356')
+    Parser.add_argument('--gaol_state', type=int, default=147258360, help='Gaol state, Default:147258360')
+    
+    Args = Parser.parse_args()
+    initial_state = Args.initial_state
+    gaol_state = Args.gaol_state
 
 	# initial_state = [1, 4, 7, 0, 2, 8, 3, 5, 6]
-	initial_state = [2, 1, 7, 8, 6, 0, 3, 4, 5]
+	# initial_state = [2, 1, 7, 8, 6, 0, 3, 4, 5]
 	# initial_state = [5, 4, 0, 2, 1, 3, 8, 7, 6]
-	goal_state = [1, 4, 7, 2, 5, 8, 3, 6, 0]
+	# goal_state = [1, 4, 7, 2, 5, 8, 3, 6, 0]
 
 	nodes = []
 	nodes_info = []
@@ -172,7 +181,7 @@ def main():
 
 	q.append(initial_state)
 	nodes.append(initial_state)
-	nodes_info.append([0, 0])
+	# nodes_info.append([0, 0])
 	visited = { flattenState(initial_state) : 0}
 
 	print(nodes)
