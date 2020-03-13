@@ -1,5 +1,9 @@
 # 8 piece puzzle
 
+8-puzzle is a puzzle played on a 3-by-3 grid with 8 square blocks labeled 1 through 8 and a blank square. The goal is to rearrange the blocks so that they are in order. 
+
+This project provides a solution to the puzzle using the breadth-first search. 
+
 ## Input Format
 
 The accepted input is column-wise, i.e. 147258360 will correspond to the following state
